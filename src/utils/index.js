@@ -9,9 +9,9 @@ import highlightSectmv from "/assets/videos/hightlight-third.mp4";
 import highlightThirdmv from "/assets/videos/hightlight-sec.mp4";
 import highlightFourthmv from "/assets/videos/hightlight-fourth.mp4";
 import exploremv from "/assets/videos/explore.mp4";
-import framemv from "/assets/videos/frame.mp4";
+import framemv from "/assets/videos/presentation.mp4";
 
-import apple from "/assets/images/apple.svg";
+import emerald from "/assets/images/logo-dex.png";
 import search from "/assets/images/search.svg";
 import bag from "/assets/images/bag.svg";
 import watch from "/assets/images/watch.svg";
@@ -26,7 +26,6 @@ import white from "/assets/images/white.jpg";
 import black from "/assets/images/black.jpg";
 import explore1 from "/assets/images/explore1.jpg";
 import explore2 from "/assets/images/explore2.jpg";
-import chip from "/assets/images/chip.jpeg";
 import frame from "/assets/images/frame.png";
 
 export const heroVideo = hmv;
@@ -38,7 +37,7 @@ export const highlightFourthVideo = highlightFourthmv;
 export const exploreVideo = exploremv;
 export const frameVideo = framemv;
 
-export const appleImg = apple;
+export const emeraldImgLogo = emerald;
 export const searchImg = search;
 export const bagImg = bag;
 export const watchImg = watch;
@@ -53,5 +52,5 @@ export const whiteImg = white;
 export const blackImg = black;
 export const explore1Img = explore1;
 export const explore2Img = explore2;
-export const chipImg = chip;
+
 export const frameImg = frame;
