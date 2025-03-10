@@ -51,21 +51,25 @@ const Navbar = () => {
           </button>
 
           {/* Dropdown Menu (Mobile) */}
-          {isOpen && (
-            <div className="absolute right-0 top-10 mt-2 w-40 bg-white rounded-md shadow-lg z-50">
-              <div className="py-2">
-                {navLists.map((nav) => (
-                  <a
-                    key={nav}
-                    href="#"
-                    className="block px-4 py-2 text-md text-gray-400 hover:bg-emerald-200 hover:text-black transition-colors"
-                  >
-                    {nav}
-                  </a>
-                ))}
-              </div>
+          <div
+            className={`absolute right-0 top-10 mt-2 w-40 bg-black bg-opacity-80 backdrop-blur-xl rounded-md shadow-lg z-50 transform transition-all duration-300 ease-out ${
+              isOpen
+                ? "scale-100 opacity-100"
+                : "scale-95 opacity-0 pointer-events-none"
+            }`}
+          >
+            <div className="py-2 p-5">
+              {navLists.map((nav) => (
+                <a
+                  key={nav}
+                  href="#"
+                  className="block px-4 py-2 text-md text-gray-200 hover:bg-emerald-500 hover:text-white transition-colors"
+                >
+                  {nav}
+                </a>
+              ))}
             </div>
-          )}
+          </div>
         </div>
       </nav>
     </header>
