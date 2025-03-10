@@ -61,6 +61,7 @@ const Features = () => {
                 preload="none"
                 muted
                 autoPlay
+                loop
                 ref={videoRef}
               >
                 <source src={exploreVideo} type="video/mp4" />
