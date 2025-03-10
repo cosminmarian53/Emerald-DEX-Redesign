@@ -1,12 +1,18 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { rightImg, watchImg } from "../utils";
+import { animateWithGsap } from "../utils/animations";
 
 import VideoCarousel from "./VideoCarousel";
 
 const Highlights = () => {
   useGSAP(() => {
-    gsap.to("#title", { opacity: 1, y: 0 });
+    animateWithGsap("#highlights_title", { y: 0, opacity: 1 });
+    animateWithGsap(
+      ".g_grow",
+      { scale: 1, opacity: 1, ease: "power1" },
+      { scrub: 5.5 }
+    );
     gsap.to(".link", { opacity: 1, y: 0, duration: 1, stagger: 0.5 });
   }, []);
 
@@ -17,7 +23,7 @@ const Highlights = () => {
     >
       <div className="screen-max-width">
         <div className="mb-12 w-full md:flex items-end justify-between">
-          <h1 id="title" className="section-heading text-white">
+          <h1 id="highlights_title" className="section-heading text-white">
             Experience the Future.
           </h1>
 
