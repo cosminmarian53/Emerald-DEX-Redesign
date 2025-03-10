@@ -2,8 +2,8 @@ import hero from "/assets/images/hero.jpeg";
 
 export const heroImg = hero;
 
-import hmv from "/assets/videos/hero.mp4";
-import smallmv from "/assets/videos/smallHero.mp4";
+import egld from "/assets/images/multiversx-egld.webp";
+import x from "/assets/images/nav-about-x.webp";
 import highlightFirstmv from "/assets/videos/highlight-first.mp4";
 import highlightSectmv from "/assets/videos/hightlight-third.mp4";
 import highlightThirdmv from "/assets/videos/hightlight-sec.mp4";
@@ -12,7 +12,7 @@ import exploremv from "/assets/videos/explore.mp4";
 import framemv from "/assets/videos/presentation.mp4";
 
 import emerald from "/assets/images/logo-dex.png";
-import search from "/assets/images/search.svg";
+import highlight from "/assets/images/highlight.jpg";
 import bag from "/assets/images/bag.svg";
 import watch from "/assets/images/watch.svg";
 import right from "/assets/images/right.svg";
@@ -28,8 +28,8 @@ import explore1 from "/assets/images/explore1.jpg";
 import explore2 from "/assets/images/explore2.jpg";
 import frame from "/assets/images/frame.png";
 
-export const heroVideo = hmv;
-export const smallHeroVideo = smallmv;
+export const egldImg = egld;
+export const xImg = x;
 export const highlightFirstVideo = highlightFirstmv;
 export const highlightSecondVideo = highlightSectmv;
 export const highlightThirdVideo = highlightThirdmv;
@@ -38,7 +38,7 @@ export const exploreVideo = exploremv;
 export const frameVideo = framemv;
 
 export const emeraldImgLogo = emerald;
-export const searchImg = search;
+export const highlightImg = highlight;
 export const bagImg = bag;
 export const watchImg = watch;
 export const rightImg = right;

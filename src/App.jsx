@@ -1,7 +1,5 @@
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
 import Highlights from "./components/Highlights";
-import Model from "./components/Model";
 import Features from "./components/Features";
 import HowItWorks from "./components/HowItWorks";
 import Footer from "./components/Footer";
@@ -13,10 +11,7 @@ const App = () => {
     <main className="bg-black">
       <Navbar />
       <HowItWorks />
-
-      {/* <Hero /> */}
       <Highlights />
-      {/* <Model /> */}
       <Features />
       <Footer />
     </main>
