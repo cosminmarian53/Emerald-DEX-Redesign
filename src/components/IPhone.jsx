@@ -182,13 +182,13 @@ function Model(props) {
         material={materials.PaletteMaterial003}
         scale={0.01}
       />
-      <mesh
+      {/* <mesh
         castShadow
         receiveShadow
         geometry={nodes.IykfmVvLplTsTEW.geometry}
         material={materials.PaletteMaterial004}
         scale={0.01}
-      />
+      /> */}
       <mesh
         castShadow
         receiveShadow

@@ -49,4 +49,14 @@ export const hightlightsSlides = [
   },
 ];
 
+export const models = [
+  {
+    id: 1,
+    title: "",
+    color: [""],
+    img: yellowImg,
+  },
+];
+
+export const sizes = [{ label: '6.1"', value: "small" }];
 export const footerLinks = ["Privacy Policy", "Terms of Use", "Legal"];

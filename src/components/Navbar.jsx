@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; // <-- import Link
 import { emeraldImgLogo } from "../utils";
 import { navLists } from "../constants";
 
@@ -12,27 +13,28 @@ const Navbar = () => {
   return (
     <header className="w-full py-5 sm:px-10 px-5 flex justify-between items-center">
       <nav className="flex w-full max-w-screen-xl mx-auto justify-between items-center">
-        {/* Logo */}
-        <a href="/" className="flex items-center gap-2">
+        {/* Logo (links to home) */}
+        <Link to="/" className="flex items-center gap-2">
           <img src={emeraldImgLogo} alt="EmeraldDEX" width={55} height={55} />
-        </a>
+        </Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex flex-1 my-5 justify-center">
           {navLists.map((nav) => (
-            <div
+            <Link
               key={nav}
+              to={`/${nav.toLowerCase()}`} // e.g. "SWAP" => "/swap"
               className="px-5 text-sm cursor-pointer hover:tracking-widest text-gray-200 hover:text-emerald-200 transition-all"
             >
               {nav}
-            </div>
+            </Link>
           ))}
         </div>
 
         {/* Connect Wallet Button */}
         <div className="flex items-center gap-4 md:order-2">
           <button className="bg-emerald-500 text-white py-2 px-4 rounded-full transition-colors duration-300 hover:bg-white hover:text-black">
-            Connect Wallet
+            <Link to="/connect-wallet">Connect Wallet</Link>
           </button>
         </div>
 
@@ -60,13 +62,14 @@ const Navbar = () => {
           >
             <div className="py-2 p-5">
               {navLists.map((nav) => (
-                <a
+                <Link
                   key={nav}
-                  href="#"
+                  to={`/${nav.toLowerCase()}`} // e.g. "POOLS" => "/pools"
                   className="block px-4 py-2 text-md text-gray-200 hover:bg-emerald-500 hover:text-white transition-colors"
+                  onClick={() => setIsOpen(false)} // optionally close menu on link click
                 >
                   {nav}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
