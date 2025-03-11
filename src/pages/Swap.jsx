@@ -8,19 +8,14 @@ const Swap = () => {
   useGSAP(() => {
     gsap.fromTo(
       "#getStartedBtn",
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 2.5 }
+      { y: 45, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.5, ease: "power2.out", delay: 1 }
     );
     gsap.fromTo(
-      "#swap-card",
+      "#swap-section",
       { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 3.5 }
+      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 3 }
     );
-    gsap.fromTo(
-      "#tradingview",
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 3.5 }
-    )
   }, []);
 
   return (
@@ -49,15 +44,12 @@ const Swap = () => {
           {/* Center a max-width container */}
           <div className="mx-auto flex flex-col md:flex-row items-start justify-center gap-8 px-4">
             {/* Left side: TradingView Widget (big chart) */}
-            <div id="tradingview" className="w-full h-full">
+            <div className="w-full h-full">
               <TradingViewWidget />
             </div>
 
             {/* Right side: Swap card */}
-            <div
-              id="swap-card"
-              className="w-full md:w-1/4 max-w-sm sm:p-3 sm:mt-3"
-            >
+            <div className="w-full md:w-1/4 max-w-sm sm:p-3 sm:mt-3">
               {/* Top bar */}
               <div className="flex justify-between items-center mb-4">
                 <h1 className="text-white text-xl font-bold">EmeraldDEX</h1>
