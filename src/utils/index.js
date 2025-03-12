@@ -19,7 +19,7 @@ import right from "/assets/images/right.svg";
 import replay from "/assets/images/replay.svg";
 import play from "/assets/images/play.svg";
 import pause from "/assets/images/pause.svg";
-
+import wallet from "/assets/images/wallet.png";
 import yellow from "/assets/images/crypto-portofolio.png";
 import blue from "/assets/images/blue.jpg";
 import white from "/assets/images/white.jpg";
@@ -37,6 +37,7 @@ export const highlightFourthVideo = highlightFourthmv;
 export const exploreVideo = exploremv;
 export const frameVideo = framemv;
 
+export const walletImg = wallet;
 export const emeraldImgLogo = emerald;
 export const highlightImg = highlight;
 export const bagImg = bag;

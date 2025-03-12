@@ -13,7 +13,7 @@ const ModelView = ({ groupRef, item }) => {
       <Lights />
 
       {/* Camera */}
-      <PerspectiveCamera makeDefault position={[0, 0, 4]} />
+      <PerspectiveCamera makeDefault position={[0, 0, 3.5]} />
 
       {/* OrbitControls - disabled for user rotation */}
       <OrbitControls
