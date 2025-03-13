@@ -4,18 +4,16 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { View } from "@react-three/drei";
-
+import { useState } from "react";
 import ModelView from "./ModelView";
 import { yellowImg } from "../utils";
 
 const Model = () => {
   // Reference to the 3D group for the phone
   const phoneRef = useRef(new THREE.Group());
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const phone = phoneRef.current;
-    if (!phone) return;
-
     /**
      * By default, the group is at rotation = [0.2, Math.PI, 0]
      *   => Slight tilt, facing away (the "back")
@@ -23,11 +21,18 @@ const Model = () => {
      * Animate from y = π  to  y = 0
      * so it ends up facing forward (still with x = 0.2 tilt).
      */
+
+    // Detect mobile on mount
+    setIsMobile(window.innerWidth < 768);
+
+    // Animate phone rotation
+    const phone = phoneRef.current;
+    if (!phone) return;
     gsap.fromTo(
       phone.rotation,
-      { y: 0 }, // start
+      { y: 0 },
       {
-        y: Math.PI - 0.2, // end
+        y: Math.PI - 0.2,
         duration: 1,
         ease: "power2.inOut",
       }
@@ -66,7 +71,7 @@ const Model = () => {
         <div className="flex flex-col items-center mt-5">
           <div className="w-full h-[75vh] md:h-[90vh] overflow-hidden relative">
             {/* Single ModelView for the phone */}
-            <ModelView groupRef={phoneRef} item={model} />
+            <ModelView groupRef={phoneRef} item={model} isMobile={isMobile} />
 
             <Canvas
               className="w-full h-full"

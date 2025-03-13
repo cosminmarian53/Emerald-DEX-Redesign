@@ -4,8 +4,8 @@ import Lights from "./Lights";
 import Loader from "./Loader";
 import IPhone from "./IPhone";
 import { Suspense } from "react";
-
-const ModelView = ({ groupRef, item }) => {
+import { useEffect, useState } from "react";
+const ModelView = ({ groupRef, item, isMobile }) => {
   return (
     <View index={1} id="view1" className="w-full h-full absolute">
       {/* Basic Lights */}
@@ -20,9 +20,7 @@ const ModelView = ({ groupRef, item }) => {
         makeDefault
         enableZoom={false}
         enablePan={false}
-        // limited rotation
-        enableDamping={true}
-        enableRotate={true}
+        enableRotate={isMobile ? false : true}
       />
 
       {/*

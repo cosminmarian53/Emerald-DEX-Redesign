@@ -15,18 +15,18 @@ const Swap = () => {
     gsap.fromTo(
       "#swap-section",
       { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 3 }
+      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 1.5 }
     );
     // add animations for the features section, make sure they appear one after one after a litle bit of time
     gsap.fromTo(
       "#features-title",
       { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 4 }
+      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 2 }
     );
     gsap.fromTo(
       "#features-container",
       { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 4.5 }
+      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 2.5 }
     );
   }, []);
 
@@ -38,7 +38,7 @@ const Swap = () => {
         className="flex flex-col items-center justify-center text-center px-4"
       >
         {/* Model (3D or visual) */}
-        <div className="mt-5">
+        <div className="mt-3 py-10">
           <Model />
         </div>
         {/* CTA Button */}
@@ -71,7 +71,7 @@ const Swap = () => {
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
             {/* Feature 1 */}
-            <div className="space-y-4 text-center">
+            <div className="space-y-4 text-center rounded-lg">
               <img
                 src="https://cdn.sanity.io/images/2bt0j8lu/production/12ff7a030184f18107956c1065ce478c79a829f3-1600x862.png?w=714&fit=max&auto=format&dpr=3"
                 alt="Fast Transactions"
@@ -86,7 +86,7 @@ const Swap = () => {
             </div>
 
             {/* Feature 2 */}
-            <div className="space-y-4 text-center">
+            <div className="space-y-4 text-center rounded-lg">
               <img
                 src="https://thedatascientist.com/wp-content/uploads/2023/09/Bitcoin-Security.jpg"
                 alt="Security"
@@ -102,7 +102,7 @@ const Swap = () => {
             </div>
 
             {/* Feature 3 */}
-            <div className="space-y-4 text-center">
+            <div className="space-y-4 text-center rounded-lg">
               <img
                 src="https://thorchain.org/images/video-posters/swap-hero-poster.png"
                 alt="Massive Token Catalog"
