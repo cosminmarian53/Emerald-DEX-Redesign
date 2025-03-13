@@ -27,7 +27,7 @@ import black from "/assets/images/black.jpg";
 import explore1 from "/assets/images/explore1.jpg";
 import explore2 from "/assets/images/explore2.jpg";
 import frame from "/assets/images/frame.png";
-
+import swap from "/assets/images/swap-stats.png";
 export const egldImg = egld;
 export const xImg = x;
 export const highlightFirstVideo = highlightFirstmv;
@@ -37,6 +37,7 @@ export const highlightFourthVideo = highlightFourthmv;
 export const exploreVideo = exploremv;
 export const frameVideo = framemv;
 
+export const swapImg = swap;
 export const walletImg = wallet;
 export const emeraldImgLogo = emerald;
 export const highlightImg = highlight;

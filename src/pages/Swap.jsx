@@ -3,7 +3,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Model from "../components/Model";
 import TradingViewWidget from "../components/TradingViewWidget";
-
 const Swap = () => {
   // Simple GSAP animations on mount
   useGSAP(() => {
@@ -38,7 +37,7 @@ const Swap = () => {
         className="flex flex-col items-center justify-center text-center px-4"
       >
         {/* Model (3D or visual) */}
-        <div className="mt-3 py-10">
+        <div className="mt-3 px-10">
           <Model />
         </div>
         {/* CTA Button */}
