@@ -1,11 +1,16 @@
 import React from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import Model from "../components/Model";
 import TradingViewWidget from "../components/TradingViewWidget";
+
 const Swap = () => {
-  // Simple GSAP animations on mount
+  // GSAP entrance animations
   useGSAP(() => {
+    gsap.fromTo(
+      "#heading",
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" }
+    );
     gsap.fromTo(
       "#getStartedBtn",
       { y: 45, opacity: 0 },
@@ -16,7 +21,6 @@ const Swap = () => {
       { y: 40, opacity: 0 },
       { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 1.5 }
     );
-    // add animations for the features section, make sure they appear one after one after a litle bit of time
     gsap.fromTo(
       "#features-title",
       { y: 40, opacity: 0 },
@@ -27,6 +31,18 @@ const Swap = () => {
       { y: 40, opacity: 0 },
       { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 2.5 }
     );
+    // Entrance for the swap panel
+    gsap.fromTo(
+      "#swap-panel",
+      { scale: 0.8, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 1.5,
+        ease: "elastic.out(1, 0.5)",
+        delay: 1,
+      }
+    );
   }, []);
 
   return (
@@ -36,83 +52,13 @@ const Swap = () => {
         id="hero"
         className="flex flex-col items-center justify-center text-center px-4"
       >
-        {/* Model (3D or visual) */}
         <div className="mt-3 px-10">
-          <Model />
-        </div>
-        {/* CTA Button */}
-        <button
-          id="getStartedBtn"
-          className="bg-transparent text-gray py-3 px-6 text-lg rounded-md transition duration-300 hover:bg-emerald-500 hover:text-white mt-8"
-          onClick={() => {
-            const target = document.querySelector("#swap-section");
-            if (target) {
-              target.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-          }}
-        >
-          Start Swapping
-        </button>
-      </section>
-
-      {/* ========================== Features Section ========================== */}
-      <section className="py-20 px-4" id="features">
-        <div className="max-w-6xl mx-auto">
-          <h2
-            id="features-title"
-            className="text-3xl md:text-4xl text-gray font-bold text-center mb-12"
+          <h1
+            id="heading"
+            className="section-heading text-center text-4xl font-bold"
           >
-            Why use our DEX?
-          </h2>
-
-          <div
-            id="features-container"
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          >
-            {/* Feature 1 */}
-            <div className="space-y-4 text-center rounded-lg">
-              <img
-                src="https://cdn.sanity.io/images/2bt0j8lu/production/12ff7a030184f18107956c1065ce478c79a829f3-1600x862.png?w=714&fit=max&auto=format&dpr=3"
-                alt="Fast Transactions"
-                className="mx-auto w-25 h-24 object-cover rounded hover:scale-110 transition-transform"
-              />
-              <h3 className="text-xl font-semibold">
-                Blazing-Fast Transactions
-              </h3>
-              <p className="text-gray-400">
-                Harness the power of MultiversX to swap tokens in seconds.
-              </p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="space-y-4 text-center rounded-lg">
-              <img
-                src="https://thedatascientist.com/wp-content/uploads/2023/09/Bitcoin-Security.jpg"
-                alt="Security"
-                className="mx-auto w-25 h-24 object-cover rounded hover:scale-110 transition-transform"
-              />
-              <h3 className="text-xl font-semibold">
-                State-of-the-Art Security
-              </h3>
-              <p className="text-gray-400">
-                Swap confidently with audited smart contracts and robust
-                protocols.
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="space-y-4 text-center rounded-lg">
-              <img
-                src="https://thorchain.org/images/video-posters/swap-hero-poster.png"
-                alt="Massive Token Catalog"
-                className="mx-auto w-24 h-24 object-cover rounded hover:scale-110 transition-transform"
-              />
-              <h3 className="text-xl font-semibold">Massive Token Catalog</h3>
-              <p className="text-gray-400">
-                Access a vast selection of tokens in one intuitive interface.
-              </p>
-            </div>
-          </div>
+            Swap tokens like never before.
+          </h1>
         </div>
       </section>
 
@@ -124,60 +70,177 @@ const Swap = () => {
             <TradingViewWidget />
           </div>
 
-          {/* Swap Card */}
-          <div className="w-full md:w-1/3 max-w-sm bg-[#1C1C1C] p-4 rounded-md">
-            {/* Top bar */}
-            <div className="flex justify-between items-center mb-4">
-              <h1 className="text-white text-xl font-bold">EmeraldDEX</h1>
-              <button className="border border-gray-600 text-white px-4 py-2 rounded-md bg-transparent hover:bg-gray-700 transition-colors">
-                Connect Wallet
-              </button>
-            </div>
-
-            {/* Main swap area */}
-            <div className="bg-[#1C1C1C] p-4 rounded-md">
-              {/* Top "USDC" box */}
-              <div className="bg-[#2C2C2C] rounded-md p-4 mb-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm text-white">USDC</span>
-                  <span className="text-sm text-white">0.00</span>
-                </div>
-                <div className="text-xs text-gray-400">USDC</div>
-              </div>
-
-              {/* Swap arrow */}
-              <div className="flex justify-center items-center mb-4">
-                <div className="w-6 h-6 bg-[#2C2C2C] flex items-center justify-center rounded-full cursor-pointer">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-gray-400 rotate-180"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+          {/* Insanely Beautiful Swap Panel */}
+          <div id="swap-panel" className="w-full md:w-1/3 max-w-sm">
+            {/* Outer container with a gradient border that scales properly */}
+            <div className="group relative p-1 bg-gradient-to-r from-green-400 to-blue-500 rounded-xl shadow-2xl transition-all duration-500 hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,160,0.5)]">
+              {/* Card container */}
+              <div className="bg-[#1C1C1C] p-6 rounded-xl">
+                {/* ================== Top Bar ================== */}
+                <div className="flex justify-between items-center mb-6">
+                  <h1
+                    className="
+                      text-2xl 
+                      font-extrabold 
+                      bg-gradient-to-r 
+                      from-green-400 
+                      to-green-800 
+                      bg-clip-text 
+                      text-transparent 
+                      drop-shadow-lg
+                    "
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
+                    EmeraldDEX
+                  </h1>
+                  <button
+                    className="
+                      relative
+                      rounded-full
+                      text-white 
+                      font-bold 
+                      tracking-wider
+                      px-5 
+                      py-2
+                      bg-gradient-to-r 
+                      from-green-400 
+                      to-green-800 
+                      shadow-lg
+                      transition-transform 
+                      duration-300 
+                      hover:scale-110 
+                      active:scale-95
+                    "
+                  >
+                    Connect Wallet
+                  </button>
                 </div>
-              </div>
 
-              {/* Bottom "EGLD" box */}
-              <div className="bg-[#2C2C2C] rounded-md p-4 mb-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm text-white">EGLD</span>
+                {/* ================== Main Swap Area ================== */}
+                <div className="space-y-6">
+                  {/* Top "USDC" box with token logo */}
+                  <div
+                    className="
+                      relative
+                      bg-[#2C2C2C]
+                      rounded-lg
+                      p-4
+                      shadow-inner
+                      transition
+                      duration-300
+                      hover:shadow-2xl
+                      hover:scale-105
+                    "
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=040"
+                          alt="USDC"
+                          className="w-5 h-5"
+                        />
+                        <span className="text-sm text-white font-medium">
+                          USDC
+                        </span>
+                      </div>
+                      <span className="text-sm text-white font-medium">
+                        0.00
+                      </span>
+                    </div>
+                    <div className="text-xs text-gray-400">USDC</div>
+                  </div>
+
+                  {/* Swap arrow */}
+                  <div className="flex justify-center items-center">
+                    <div
+                      className="
+                        w-8
+                        h-8
+                        bg-[#2C2C2C]
+                        flex
+                        items-center
+                        justify-center
+                        rounded-full
+                        cursor-pointer
+                        transition
+                        duration-300
+                        hover:rotate-180
+                        hover:shadow-md
+                      "
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 text-gray-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Bottom "EGLD" box with token logo */}
+                  <div
+                    className="
+                      relative
+                      bg-[#2C2C2C]
+                      rounded-lg
+                      p-4
+                      shadow-inner
+                      transition
+                      duration-300
+                      hover:shadow-2xl
+                      hover:scale-105
+                    "
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src="https://cryptologos.cc/logos/multiversx-egld-egld-logo.png?v=040"
+                          alt="EGLD"
+                          className="w-5 h-5 rounded-full"
+                        />
+                        <span className="text-sm text-white font-medium">
+                          EGLD
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-xs text-gray-400">EGLD</div>
+                  </div>
+
+                  {/* Big "Connect Wallet" button at the bottom */}
+                  <button
+                    className="
+                      w-full
+                      py-3
+                      rounded-full
+                      text-white
+                      font-bold
+                      tracking-wider
+                      bg-gradient-to-r
+                      from-green-400
+                      to-green-800
+                      shadow-lg
+                      transition
+                      duration-300
+                      hover:scale-105
+                      hover:shadow-[0_0_20px_rgba(0,255,160,0.5)]
+                      active:scale-95
+                      focus:outline-none
+                    "
+                  >
+                    Connect Wallet
+                  </button>
                 </div>
-                <div className="text-xs text-gray-400">EGLD</div>
+                {/* End Main Swap Area */}
               </div>
-
-              {/* Connect Wallet button */}
-              <button className="w-full bg-[#2C2C2C] py-2 rounded-md text-white hover:bg-[#3C3C3C] transition-colors">
-                Connect Wallet
-              </button>
             </div>
+            {/* End outer container */}
           </div>
         </div>
       </section>

@@ -1,4 +1,3 @@
-// TradingViewWidget.jsx
 import React, { useEffect, useRef, memo } from "react";
 
 function TradingViewWidget() {
@@ -6,7 +5,6 @@ function TradingViewWidget() {
   const scriptAdded = useRef(false);
 
   useEffect(() => {
-    // Only append the script once to avoid duplicate widgets
     if (!scriptAdded.current && containerRef.current) {
       const script = document.createElement("script");
       script.src =
@@ -16,12 +14,8 @@ function TradingViewWidget() {
       script.innerHTML = `
         {
           "symbols": [
-            [
-              "BINANCE:EGLDUSDT|1D"
-            ],
-            [
-              "BINANCE:BTCUSDT|1D"
-            ]
+            ["BINANCE:EGLDUSDT|1D"],
+            ["BINANCE:BTCUSDT|1D"]
           ],
           "chartOnly": false,
           "width": "100%",
@@ -71,11 +65,10 @@ function TradingViewWidget() {
         h-[500px] 
         md:h-[600px] 
         relative
+        p-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-lg shadow-2xl animate-[pulse_4s_infinite]
       "
     >
-      {/* The chart itself fills the container */}
-      <div className="tradingview-widget-container__widget w-full h-full" />
-      
+      <div className="tradingview-widget-container__widget w-full h-full rounded-lg" />
       <div className="text-center mt-2 text-sm text-gray-500">
         <a
           href="https://www.tradingview.com/"

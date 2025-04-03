@@ -10,6 +10,7 @@ import Analytics from "./pages/Analytics";
 import ConnectWallet from "./pages/ConnectWallet";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Portfolio from "./pages/Portfolio";
 export default function App() {
   return (
     <>
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/pools" element={<Pools />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/connect-wallet" element={<ConnectWallet />} />
+        <Route path="/portfolio" element={<Portfolio />} />
       </Routes>
       <Footer />
     </>

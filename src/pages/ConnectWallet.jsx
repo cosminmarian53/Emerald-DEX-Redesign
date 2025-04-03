@@ -15,14 +15,14 @@ const ConnectWallet = () => {
     gsap.fromTo(
       "#walletImage",
       { scale: 0.9, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 1.2, ease: "power2.out", delay: 1.8 }
+      { scale: 1, opacity: 1, duration: 1.2, ease: "power2.out", delay: 1 }
     );
 
     // Animate the wallet container (buttons)
     gsap.fromTo(
       "#walletContainer",
       { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 2 }
+      { y: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 1 }
     );
   }, []);
 
@@ -37,17 +37,10 @@ const ConnectWallet = () => {
           id="slogan"
           className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent mb-6"
         >
-          Your Wallet, Your Fortress: Secure, Seamless, Decentralized.
+          Your Wallet, Your Fortress.
         </h1>
 
         {/* Animated Image */}
-        <div id="walletImage" className="w-full max-w-md">
-          <img
-            src={walletImg}
-            alt="Crypto Wallet Illustration"
-            className="w-full h-auto rounded-xl shadow-2xl"
-          />
-        </div>
         <p className="text-gray-500 text-lg max-w-2xl mb-8">
           Experience DeFi with the Confidence of{" "}
           <span className="font-bold">True</span> Security.
