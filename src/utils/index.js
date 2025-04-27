@@ -2,7 +2,6 @@ import hero from "/assets/images/hero.jpeg";
 
 export const heroImg = hero;
 
-import egld from "/assets/images/multiversx-egld.webp";
 import x from "/assets/images/nav-about-x.webp";
 import highlightFirstmv from "/assets/videos/highlight-first.mp4";
 import highlightSectmv from "/assets/videos/hightlight-third.mp4";
@@ -10,7 +9,12 @@ import highlightThirdmv from "/assets/videos/hightlight-sec.mp4";
 import highlightFourthmv from "/assets/videos/hightlight-fourth.mp4";
 import exploremv from "/assets/videos/explore.mp4";
 import framemv from "/assets/videos/presentation.mp4";
-
+import usdc from "/assets/images/usdc.png";
+import eth from "/assets/images/eth.png";
+import btc from "/assets/images/btc.png";
+import egld from "/assets/images/egld.png";
+import sol from "/assets/images/sol.png";
+import bnb from "/assets/images/bnb.png";
 import emerald from "/assets/images/logo-dex.png";
 import highlight from "/assets/images/highlight.jpg";
 import bag from "/assets/images/bag.svg";
@@ -29,6 +33,11 @@ import explore2 from "/assets/images/explore2.jpg";
 import frame from "/assets/images/frame.png";
 import swap from "/assets/images/swap-stats.png";
 export const egldImg = egld;
+export const ethImg = eth;
+export const btcImg = btc;
+export const solImg = sol;
+export const bnbImg = bnb;
+
 export const xImg = x;
 export const highlightFirstVideo = highlightFirstmv;
 export const highlightSecondVideo = highlightSectmv;
@@ -36,7 +45,7 @@ export const highlightThirdVideo = highlightThirdmv;
 export const highlightFourthVideo = highlightFourthmv;
 export const exploreVideo = exploremv;
 export const frameVideo = framemv;
-
+export const usdcImg = usdc;
 export const swapImg = swap;
 export const walletImg = wallet;
 export const emeraldImgLogo = emerald;

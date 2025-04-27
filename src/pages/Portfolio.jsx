@@ -1,28 +1,49 @@
 import React, { useState, useEffect } from "react";
 import { gsap } from "gsap";
 import { FaArrowRight, FaWallet } from "react-icons/fa";
-
+import { usdcImg, egldImg, ethImg, bnbImg, btcImg, solImg } from "../utils/index";
 const portfolioData = [
   {
     id: 1,
     name: "USDC",
-    logo: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=040",
+    logo: usdcImg,
     amount: "1,000",
     value: "$1,000",
   },
   {
     id: 2,
     name: "EGLD",
-    logo: "https://cryptologos.cc/logos/multiversx-egld-egld-logo.png?v=040",
+    logo: egldImg,
     amount: "50",
     value: "$3,500",
   },
   {
     id: 3,
     name: "BTC",
-    logo: "https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=040",
+    logo: btcImg,
     amount: "0.1",
     value: "$4,200",
+  },
+  {
+    id: 4,
+    name: "ETH",
+    logo: ethImg,
+    amount: "2",
+    value: "$6,000",
+  },
+  {
+    id: 5,
+    name: "BNB",
+    logo: bnbImg,
+    amount: "5",
+    value: "$1,500",
+  },
+  {
+    id: 6,
+    name: "SOL",
+    logo: solImg,
+    amount: "10",
+    value: "$1,200",
   },
 ];
 
@@ -99,7 +120,7 @@ const Portfolio = () => {
         <div className="text-center mb-8">
           <h1
             id="slogan"
-            className="text-5xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600 drop-shadow-md"
+            className="text-5xl section-heading font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600 drop-shadow-md"
           >
             Your Portfolio
           </h1>

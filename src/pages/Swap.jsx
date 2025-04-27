@@ -1,10 +1,35 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import TradingViewWidget from "../components/TradingViewWidget";
+import { usdcImg, egldImg, ethImg, bnbImg, btcImg, solImg } from "../utils/index";
 
-const Swap = () => {
-  // GSAP entrance animations
+// Sample tokens and mock exchange rates
+const tokens = [
+  { symbol: "USDC", logo: usdcImg },
+  { symbol: "ETH", logo: ethImg },
+  { symbol: "BTC", logo: btcImg },
+  { symbol: "BNB", logo: bnbImg },
+  { symbol: "SOL", logo: solImg },
+  { symbol: "EGLD", logo: egldImg },
+];
+
+// Simple mock rate lookup
+const mockRates = {
+  "USDC-EGLD": 0.025,
+  "EGLD-USDC": 40,
+  "ETH-BTC": 0.06,
+  // add more pairs as needed
+};
+
+export default function Swap() {
+  const [address, setAddress] = useState("");
+  const [fromToken, setFromToken] = useState(tokens[0]);
+  const [toToken, setToToken] = useState(tokens[1]);
+  const [amount, setAmount] = useState(0);
+  const [swapping, setSwapping] = useState(false);
+  const swapBtnRef = useRef(null);
+
+// GSAP entrance
   useGSAP(() => {
     gsap.fromTo(
       "#heading",
@@ -12,240 +37,166 @@ const Swap = () => {
       { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" }
     );
     gsap.fromTo(
-      "#getStartedBtn",
-      { y: 45, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.5, ease: "power2.out", delay: 1 }
-    );
-    gsap.fromTo(
-      "#swap-section",
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 1.5 }
-    );
-    gsap.fromTo(
-      "#features-title",
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 2 }
-    );
-    gsap.fromTo(
-      "#features-container",
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out", delay: 2.5 }
-    );
-    // Entrance for the swap panel
-    gsap.fromTo(
       "#swap-panel",
-      { scale: 0.8, opacity: 0 },
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 1.5,
-        ease: "elastic.out(1, 0.5)",
-        delay: 1,
-      }
+      { scale: 0.8, opacity: 0, rotateY: 30, transformPerspective: 800 },
+      { scale: 1, opacity: 1, rotateY: 0, duration: 1.5, ease: "elastic.out(1, 0.5)", delay: 0.5 }
     );
   }, []);
 
+  const truncate = (addr = "") => addr.slice(0, 6) + "..." + addr.slice(-4);
+
+  const handleAmountChange = (e) => {
+    const val = parseFloat(e.target.value) || 0;
+    setAmount(val < 0 ? 0 : val);
+  };
+
+  const rateKey = `${fromToken.symbol}-${toToken.symbol}`;
+  const rate = mockRates[rateKey] || 1;
+  const mockPrice = (amount * rate).toFixed(4);
+
+  const handleConnect = () => setAddress("0xAbCdEF1234567890GhIjKL7890MnOpQr");
+
+  const handleArrowSwap = () => {
+    setFromToken(toToken);
+    setToToken(fromToken);
+    setAmount(0);
+  };
+
+  const handleSwap = () => {
+    if (!address) return;
+    setSwapping(true);
+    gsap.fromTo(
+      swapBtnRef.current,
+      { boxShadow: "0 0 10px #00ff99" },
+      { boxShadow: "0 0 20px #00ff99", duration: 0.3, yoyo: true, repeat: 3, ease: "power1.inOut" }
+    );
+    setTimeout(() => {
+      setSwapping(false);
+      setFromToken(toToken);
+      setToToken(fromToken);
+      setAmount(0);
+    }, 1500);
+  };
+
   return (
     <div className="bg-black text-white min-h-screen w-full flex flex-col">
-      {/* ========================== Hero Section ========================== */}
-      <section
-        id="hero"
-        className="flex flex-col items-center justify-center text-center px-4"
-      >
-        <div className="mt-3 px-10">
-          <h1
-            id="heading"
-            className="section-heading text-center text-4xl font-bold"
-          >
-            Swap tokens like never before.
-          </h1>
-        </div>
+      {/* Hero Section */}
+      <section id="hero" className="flex flex-col items-center justify-center text-center px-4 py-12">
+        <h1 id="heading" className="section-heading text-4xl font-bold">
+          Swap tokens like never before.
+        </h1>
       </section>
 
-      {/* ========================== Swap Section ========================== */}
-      <section id="swap-section" className="w-full pt-10 pb-20 px-4">
-        <div className="mx-auto flex flex-col md:flex-row items-start justify-center gap-8 max-w-6xl">
-          {/* TradingView Widget / Chart */}
-          <div className="w-full h-full md:flex-1">
-            <TradingViewWidget />
-          </div>
-
-          {/* Insanely Beautiful Swap Panel */}
-          <div id="swap-panel" className="w-full md:w-1/3 max-w-sm">
-            {/* Outer container with a gradient border that scales properly */}
-            <div className="group relative p-1 bg-gradient-to-r from-green-400 to-blue-500 rounded-xl shadow-2xl transition-all duration-500 hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,160,0.5)]">
-              {/* Card container */}
-              <div className="bg-[#1C1C1C] p-6 rounded-xl">
-                {/* ================== Top Bar ================== */}
+      {/* Swap Panel */}
+      <section id="swap-section" className="w-full px-4 pb-20 flex justify-center">
+        <div id="swap-panel" className="group w-full max-w-md min-h-[600px] perspective-[1000px]">
+          <div className="transform-style-preserve-3d transition-transform duration-500 group-hover:rotate-y-3">
+            <div className="bg-[#000]/90 p-1 rounded-2xl shadow-[0_0_15px_rgba(0,255,153,0.5)] hover:scale-105 transition">
+              <div className="bg-black p-6 rounded-2xl h-full flex flex-col justify-between">
+                {/* Top Bar */}
                 <div className="flex justify-between items-center mb-6">
-                  <h1
-                    className="
-                      text-2xl 
-                      font-extrabold 
-                      bg-gradient-to-r 
-                      from-green-400 
-                      to-green-800 
-                      bg-clip-text 
-                      text-transparent 
-                      drop-shadow-lg
-                    "
-                  >
+                  <h1 className="text-2xl font-extrabold text-[#00ff99] drop-shadow-lg">
                     EmeraldDEX
                   </h1>
-                  <button
-                    className="
-                      relative
-                      rounded-full
-                      text-white 
-                      font-bold 
-                      tracking-wider
-                      px-5 
-                      py-2
-                      bg-gradient-to-r 
-                      from-green-400 
-                      to-green-800 
-                      shadow-lg
-                      transition-transform 
-                      duration-300 
-                      hover:scale-110 
-                      active:scale-95
-                    "
-                  >
-                    Connect Wallet
-                  </button>
-                </div>
-
-                {/* ================== Main Swap Area ================== */}
-                <div className="space-y-6">
-                  {/* Top "USDC" box with token logo */}
-                  <div
-                    className="
-                      relative
-                      bg-[#2C2C2C]
-                      rounded-lg
-                      p-4
-                      shadow-inner
-                      transition
-                      duration-300
-                      hover:shadow-2xl
-                      hover:scale-105
-                    "
-                  >
-                    <div className="flex justify-between items-center mb-2">
-                      <div className="flex items-center gap-2">
-                        <img
-                          src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=040"
-                          alt="USDC"
-                          className="w-5 h-5"
-                        />
-                        <span className="text-sm text-white font-medium">
-                          USDC
-                        </span>
-                      </div>
-                      <span className="text-sm text-white font-medium">
-                        0.00
-                      </span>
-                    </div>
-                    <div className="text-xs text-gray-400">USDC</div>
-                  </div>
-
-                  {/* Swap arrow */}
-                  <div className="flex justify-center items-center">
-                    <div
-                      className="
-                        w-8
-                        h-8
-                        bg-[#2C2C2C]
-                        flex
-                        items-center
-                        justify-center
-                        rounded-full
-                        cursor-pointer
-                        transition
-                        duration-300
-                        hover:rotate-180
-                        hover:shadow-md
-                      "
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-gray-400"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                  {address ? (
+                    <span className="text-sm font-medium bg-[#121212] px-3 py-1 rounded-full">
+                      {truncate(address)}
+                    </span>
+                  ) : (
+                      <button
+                        onClick={handleConnect}
+                        className="px-4 py-2 rounded-full font-semibold bg-[#00ff99] hover:opacity-90 transition"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Bottom "EGLD" box with token logo */}
-                  <div
-                    className="
-                      relative
-                      bg-[#2C2C2C]
-                      rounded-lg
-                      p-4
-                      shadow-inner
-                      transition
-                      duration-300
-                      hover:shadow-2xl
-                      hover:scale-105
-                    "
-                  >
-                    <div className="flex justify-between items-center mb-2">
-                      <div className="flex items-center gap-2">
-                        <img
-                          src="https://cryptologos.cc/logos/multiversx-egld-egld-logo.png?v=040"
-                          alt="EGLD"
-                          className="w-5 h-5 rounded-full"
-                        />
-                        <span className="text-sm text-white font-medium">
-                          EGLD
-                        </span>
-                      </div>
-                    </div>
-                    <div className="text-xs text-gray-400">EGLD</div>
-                  </div>
-
-                  {/* Big "Connect Wallet" button at the bottom */}
-                  <button
-                    className="
-                      w-full
-                      py-3
-                      rounded-full
-                      text-white
-                      font-bold
-                      tracking-wider
-                      bg-gradient-to-r
-                      from-green-400
-                      to-green-800
-                      shadow-lg
-                      transition
-                      duration-300
-                      hover:scale-105
-                      hover:shadow-[0_0_20px_rgba(0,255,160,0.5)]
-                      active:scale-95
-                      focus:outline-none
-                    "
-                  >
-                    Connect Wallet
-                  </button>
+                        Connect Wallet
+                      </button>
+                  )}
                 </div>
-                {/* End Main Swap Area */}
+
+                {/* Inputs Section */}
+                <div className="space-y-6 flex-grow">
+                  {/* From Input */}
+                  <div className="space-y-1">
+                    <label className="text-xs text-gray-400">From</label>
+                    <div className="flex bg-[#111] rounded-lg p-3 items-center justify-between shadow-inner hover:shadow-lg transition">
+                      <div className="flex items-center gap-2">
+                        <img src={fromToken.logo} alt={fromToken.symbol} className="w-6 h-6" />
+                        <select
+                          value={fromToken.symbol}
+                          onChange={(e) => setFromToken(tokens.find((t) => t.symbol === e.target.value))}
+                          className="bg-transparent outline-none text-white font-medium"
+                        >
+                          {tokens.map((t) => (
+                            <option key={t.symbol} className="text-black">{t.symbol}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <input
+                        type="number"
+                        min="0"
+                        value={amount}
+                        onChange={handleAmountChange}
+                        placeholder="0.0"
+                        className="w-1/2 bg-transparent text-right outline-none text-white font-semibold"
+                      />
+                    </div>
+                    <div className="text-xs text-gray-500">Price: {mockPrice} {toToken.symbol}</div>
+                  </div>
+
+                  {/* Arrow Swap */}
+                  <div className="flex justify-center">
+                    <button
+                      onClick={handleArrowSwap}
+                      className="w-10 h-10 bg-[#111] flex items-center justify-center rounded-full transition-transform duration-500 hover:rotate-180 shadow-md"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* To Input */}
+                  <div className="space-y-1">
+                    <label className="text-xs text-gray-400">To</label>
+                    <div className="flex bg-[#111] rounded-lg p-3 items-center justify-between shadow-inner hover:shadow-lg transition">
+                      <div className="flex items-center gap-2">
+                        <img src={toToken.logo} alt={toToken.symbol} className="w-6 h-6" />
+                        <select
+                          value={toToken.symbol}
+                          onChange={(e) => setToToken(tokens.find((t) => t.symbol === e.target.value))}
+                          className="bg-transparent outline-none text-white font-medium"
+                        >
+                          {tokens.map((t) => (
+                            <option key={t.symbol} className="text-black">{t.symbol}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <span className="text-white font-semibold">{mockPrice} {toToken.symbol}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Swap Button */}
+                <button
+                  ref={swapBtnRef}
+                  onClick={handleSwap}
+                  className="w-full py-3 rounded-full font-bold tracking-wide bg-[#00ff99] text-black shadow-md hover:animate-pulse transition transform duration-300 mt-6 disabled:opacity-50 flex items-center justify-center"
+                  disabled={!amount || !address || swapping}
+                >
+                  {swapping ? (
+                    <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" stroke="black" strokeWidth="4" fill="none" />
+                    </svg>
+                  ) : address ? (
+                    "Swap"
+                  ) : (
+                    "Connect to Swap"
+                  )}
+                </button>
               </div>
             </div>
-            {/* End outer container */}
           </div>
         </div>
       </section>
     </div>
   );
-};
-
-export default Swap;
+}

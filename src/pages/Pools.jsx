@@ -2,71 +2,99 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
-
+import { usdcImg, egldImg, ethImg, bnbImg, btcImg, solImg } from "../utils/index";
 // Map token symbols to their images using the provided URLs
 const tokenImages = {
-  USDC: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=040",
-  SNOW: "https://cryptologos.cc/logos/snowswap-snow-logo.png?v=040",
-  EGLD: "https://cryptologos.cc/logos/multiversx-egld-egld-logo.png?v=040",
-  // Fallbacks:
-  MEX: "https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=040",
-  SPOT: "https://cryptologos.cc/logos/avalanche-avax-logo.png?v=040",
+  USDC: usdcImg,
+  EGLD: egldImg,
+  ETH: ethImg,
+  BNB: bnbImg,
+  BTC: btcImg,
+  SOL: solImg,
 };
 
 // Sample data
 const poolsData = [
   {
     id: 1,
-    pair: 'USDC / EGLD',
-    liquidity: '$0',
-    fees: '$423,245',
-    volume24h: '$4,563,764',
+    pair: 'USDC-EGLD',
     poolAssets: [
-      { token: 'USDC', contract: '350cAle' },
-      { token: 'EGLD', contract: 'e8378a' },
+      { token: 'USDC', contract: '0x123' },
+      { token: 'EGLD', contract: '0x456' },
     ],
-    yourLiquidity: '$0.00',
-    share: '0%',
+    liquidity: '$10,000',
+    fees: '$100',
+    volume24h: '$1,000',
+    yourLiquidity: '50 USDC',
+    share: '5%',
   },
   {
     id: 2,
-    pair: 'MEX / EGLD',
-    liquidity: '$0',
-    fees: '$423,245',
-    volume24h: '$4,563,764',
-    poolAssets: [
-      { token: 'MEX', contract: '4950b' },
-      { token: 'EGLD', contract: 'daeb59' },
+    pair: 'ETH-BNB',
+    poolAssets: [ 
+      { token: 'ETH', contract: '0x789' },
+      { token: 'BNB', contract: '0xabc' },
     ],
-    yourLiquidity: '$0.00',
-    share: '0%',
+    liquidity: '$20,000',
+    fees: '$200',
+    volume24h: '$2,000',
+    yourLiquidity: '1 ETH',
+
+    share: '10%',
   },
   {
     id: 3,
-    pair: 'MEX / SNOW',
-    liquidity: '$0',
-    fees: '$423,245',
-    volume24h: '$4,563,764',
+    pair: 'BTC-SOL',
     poolAssets: [
-      { token: 'MEX', contract: '4950b' },
-      { token: 'SNOW', contract: 'daeb59' },
+      { token: 'BTC', contract: '0xdef' },
+      { token: 'SOL', contract: '0xghi' },
     ],
-    yourLiquidity: '$0.00',
-    share: '0%',
+    liquidity: '$30,000',
+    fees: '$300',
+    volume24h: '$3,000',
+    yourLiquidity: '0.5 BTC',
+    share: '15%',
   },
   {
     id: 4,
-    pair: 'MEX / SPOT',
-    liquidity: '$0',
-    fees: '$423,245',
-    volume24h: '$4,563,764',
+    pair: 'USDC-BTC',
     poolAssets: [
-      { token: 'MEX', contract: '4950b' },
-      { token: 'SPOT', contract: 'ec671' },
+      { token: 'USDC', contract: '0xjkl' },
+      { token: 'BTC', contract: '0xmnop' },
     ],
-    yourLiquidity: '$0.00',
-    share: '0%',
+    liquidity: '$40,000',
+    fees: '$400',
+    volume24h: '$4,000',
+    yourLiquidity: '100 USDC',
+    share: '20%',
   },
+  {
+    id: 5,
+    pair: 'EGLD-SOL',
+    poolAssets: [
+      { token: 'EGLD', contract: '0xqrst' },
+      { token: 'SOL', contract: '0xuvw' },
+    ],
+    liquidity: '$50,000',
+    fees: '$500',
+
+    volume24h: '$5,000',
+    yourLiquidity: '2 EGLD',
+    share: '25%',
+  },
+  {
+    id: 6,
+    pair: 'ETH-USDC',
+    poolAssets: [
+      { token: 'ETH', contract: '0xxyz' },
+      { token: 'USDC', contract: '0xabc' },
+    ],
+    liquidity: '$60,000',
+    fees: '$600',
+    volume24h: '$6,000',
+    yourLiquidity: '0.2 ETH',
+    share: '30%',
+  }
 ];
 
 // Framer Motion animation variants for row expansion
@@ -269,7 +297,7 @@ const Pools = () => {
         <h1
           ref={headerRef}
           id="header"
-          className="text-5xl md:text-6xl font-extrabold text-[#00c58a] drop-shadow-lg tracking-wide"
+          className="text-5xl section-heading text-spacing-2 md:text-6xl font-extrabold text-[#00c58a] drop-shadow-lg tracking-wide"
         >
           Liquidity Pools
         </h1>
