@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { usdcImg, egldImg, ethImg, bnbImg, btcImg, solImg } from "../utils/index";
+
 // Map token symbols to their images using the provided URLs
 const tokenImages = {
   USDC: usdcImg,
@@ -31,7 +32,7 @@ const poolsData = [
   {
     id: 2,
     pair: 'ETH-BNB',
-    poolAssets: [ 
+    poolAssets: [
       { token: 'ETH', contract: '0x789' },
       { token: 'BNB', contract: '0xabc' },
     ],
@@ -39,7 +40,6 @@ const poolsData = [
     fees: '$200',
     volume24h: '$2,000',
     yourLiquidity: '1 ETH',
-
     share: '10%',
   },
   {
@@ -77,7 +77,6 @@ const poolsData = [
     ],
     liquidity: '$50,000',
     fees: '$500',
-
     volume24h: '$5,000',
     yourLiquidity: '2 EGLD',
     share: '25%',
@@ -107,15 +106,12 @@ const expandVariants = {
 const Pools = () => {
   const navigate = useNavigate();
   const [expandedPool, setExpandedPool] = useState(null);
-  // Modal state object: type can be "add" or "remove", and pool holds the pool data
   const [modalData, setModalData] = useState({ type: '', pool: null });
 
-  // Refs for GSAP animations
   const headerRef = useRef(null);
   const subHeaderRef = useRef(null);
   const tableRef = useRef(null);
 
-  // GSAP animations on mount
   useEffect(() => {
     gsap.fromTo(
       "#header",
@@ -132,8 +128,8 @@ const Pools = () => {
       { scale: 0.9, opacity: 0 },
       { scale: 1, opacity: 1, duration: 1.2, ease: "power2.out", delay: 1 }
     );
-     gsap.fromTo(
-      "#table",
+    gsap.fromTo(
+      "#table", // This ID is on the container of pool items
       { scale: 0.9, opacity: 0 },
       { scale: 1, opacity: 1, duration: 1.2, ease: "power2.out", delay: 1 }
     );
@@ -147,35 +143,33 @@ const Pools = () => {
     navigate('/swap');
   };
 
-  // Open modal with specific type ("add" or "remove") for a given pool
   const openModal = (type, pool) => {
     setModalData({ type, pool });
   };
 
-  // Close modal
   const closeModal = () => {
     setModalData({ type: '', pool: null });
   };
 
-  // Render modal content based on type.
   const renderModalContent = () => {
     if (!modalData.pool) return null;
     const { type, pool } = modalData;
+    const [tokenA, tokenB] = pool.poolAssets; // Assuming all pools have at least two assets for 'add'
+
     if (type === 'add') {
-      // For Add Liquidity: Show two token inputs and balances, a "MAX" option, and a conversion rate
-      const [tokenA, tokenB] = pool.poolAssets;
       return (
         <div className="space-y-4">
           <h2 className="text-2xl font-bold text-[#00c58a]">
             Add Liquidity
           </h2>
-          <div className="flex items-center space-x-4">
+          {/* Token A Input Section */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-2 sm:space-y-0">
             <img
               src={tokenImages[tokenA.token]}
               alt={tokenA.token}
-              className="w-8 h-8 object-contain"
+              className="w-8 h-8 object-contain self-start sm:self-center"
             />
-            <div className="flex-1">
+            <div className="flex-1 space-y-1">
               <label className="block text-sm text-gray-300">
                 {tokenA.token} Amount
               </label>
@@ -185,22 +179,23 @@ const Pools = () => {
                   placeholder="0.0"
                   className="w-full px-3 py-2 bg-gray-800 text-white rounded-full focus:outline-none"
                 />
-                <button className="absolute right-2 top-2 text-xs text-[#00f2ab]">
+                <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-[#00f2ab] px-2 py-0.5 bg-gray-700 rounded-full hover:bg-gray-600">
                   MAX
                 </button>
               </div>
               <p className="text-xs text-gray-400">
-                Balance: 1000 {tokenA.token}
+                Balance: 1000 {tokenA.token} {/* Replace with actual balance */}
               </p>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
+          {/* Token B Input Section */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-2 sm:space-y-0">
             <img
               src={tokenImages[tokenB.token]}
               alt={tokenB.token}
-              className="w-8 h-8 object-contain"
+              className="w-8 h-8 object-contain self-start sm:self-center"
             />
-            <div className="flex-1">
+            <div className="flex-1 space-y-1">
               <label className="block text-sm text-gray-300">
                 {tokenB.token} Amount
               </label>
@@ -210,21 +205,21 @@ const Pools = () => {
                   placeholder="0.0"
                   className="w-full px-3 py-2 bg-gray-800 text-white rounded-full focus:outline-none"
                 />
-                <button className="absolute right-2 top-2 text-xs text-[#00f2ab]">
+                <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-[#00f2ab] px-2 py-0.5 bg-gray-700 rounded-full hover:bg-gray-600">
                   MAX
                 </button>
               </div>
               <p className="text-xs text-gray-400">
-                Balance: 5 {tokenB.token}
+                Balance: 5 {tokenB.token} {/* Replace with actual balance */}
               </p>
             </div>
           </div>
           <div>
             <p className="text-sm text-gray-300">
-              Conversion Rate: 1 {tokenB.token} ≈ 350 {tokenA.token}
+              Conversion Rate: 1 {tokenB.token} ≈ 350 {tokenA.token} {/* Replace with actual rate */}
             </p>
           </div>
-          <div className="flex justify-end space-x-4">
+          <div className="flex justify-end space-x-4 pt-2">
             <button
               onClick={closeModal}
               className="px-4 py-2 bg-gray-700 rounded-full text-sm text-white hover:bg-gray-600"
@@ -232,7 +227,7 @@ const Pools = () => {
               Cancel
             </button>
             <button
-              onClick={closeModal}
+              onClick={closeModal} // Replace with actual confirm logic
               className="px-4 py-2 bg-[#00f2ab] rounded-full text-sm text-black font-semibold hover:bg-[#00a676]"
             >
               Confirm
@@ -241,7 +236,6 @@ const Pools = () => {
         </div>
       );
     } else if (type === 'remove') {
-      // For Remove Liquidity: Show one input for amount and the user balance.
       return (
         <div className="space-y-4">
           <h2 className="text-2xl font-bold text-red-400">
@@ -260,7 +254,7 @@ const Pools = () => {
               Balance: {pool.yourLiquidity}
             </p>
           </div>
-          <div className="flex justify-end space-x-4">
+          <div className="flex justify-end space-x-4 pt-2">
             <button
               onClick={closeModal}
               className="px-4 py-2 bg-gray-700 rounded-full text-sm text-white hover:bg-gray-600"
@@ -268,7 +262,7 @@ const Pools = () => {
               Cancel
             </button>
             <button
-              onClick={closeModal}
+              onClick={closeModal} // Replace with actual confirm logic
               className="px-4 py-2 bg-[#00f2ab] rounded-full text-sm text-black font-semibold hover:bg-[#00a676]"
             >
               Confirm
@@ -307,75 +301,80 @@ const Pools = () => {
         </p>
         <button
           id="newPoolBtn"
-          className="mt-8 px-8 py-3 bg-[#00f2ab] text-black font-semibold rounded-full shadow-lg hover:bg-[#00a676] hover:text-white transition-all transform hover:scale-105"
+          className="mt-8 px-6 py-2.5 md:px-8 md:py-3 bg-[#00f2ab] text-black font-semibold rounded-full shadow-lg hover:bg-[#00a676] hover:text-white transition-all transform hover:scale-105"
         >
           + New Pool
         </button>
       </header>
 
-      {/* Table-like Container */}
+      {/* Pool Items Container */}
       <div id="table" className="max-w-6xl mx-auto px-4" ref={tableRef}>
-        {/* Table Header */}
-        <div className="grid grid-cols-12 gap-2 py-2 text-[#81ffc1] border-b border-[#00f2ab]/30 mb-2 font-medium">
-          <span className="col-span-3">Pool</span>
-          <span className="col-span-2">Liquidity</span>
-          <span className="col-span-2">Fees (24h)</span>
-          <span className="col-span-2">Volume (24h)</span>
-          <span className="col-span-3 text-right">Actions</span>
+        {/* Table Header for md+ screens */}
+        <div className="hidden md:grid md:grid-cols-12 md:gap-x-3 py-2 text-[#81ffc1] border-b border-[#00f2ab]/30 mb-2 font-medium">
+          <span className="md:col-span-3">Pool</span>
+          <span className="md:col-span-2">Liquidity</span>
+          <span className="md:col-span-2">Fees (24h)</span>
+          <span className="md:col-span-2">Volume (24h)</span>
+          <span className="md:col-span-3 text-right">Actions</span>
         </div>
 
-        {/* Table Rows */}
+        {/* Pool Items (Cards on mobile, Rows on md+) */}
         {poolsData.map((pool) => {
           const isExpanded = expandedPool === pool.id;
           return (
-            <div key={pool.id}>
+            <div
+              key={pool.id}
+              className="bg-[#00281a]/70 rounded-lg shadow-lg mb-4 md:bg-transparent md:shadow-none md:mb-0 md:border-b md:border-[#ffffff1a] transition-colors md:hover:bg-white/5"
+            >
               <div
                 onClick={() => toggleExpand(pool.id)}
-                className="grid grid-cols-12 gap-2 py-3 items-center cursor-pointer border-b border-[#ffffff33] hover:bg-white/5 transition-colors"
+                className="p-4 md:p-0 md:grid md:grid-cols-12 md:gap-x-3 md:py-3 md:items-center cursor-pointer"
               >
-                {/* Pool (with token images) */}
-                <div className="col-span-3 flex items-center space-x-2 font-medium">
+                {/* Pool Name & Icons */}
+                <div className="flex items-center space-x-3 md:col-span-3 font-medium">
                   {pool.poolAssets.map((asset, idx) => (
                     <img
                       key={idx}
                       src={tokenImages[asset.token]}
                       alt={asset.token}
-                      className="w-8 h-8 object-contain"
+                      className="w-7 h-7 md:w-8 md:h-8 object-contain rounded-full"
                       title={asset.token}
                     />
                   ))}
-                  <span className="text-[#c4ffc4]">{pool.pair}</span>
+                  <span className="text-[#e0ffe0] text-base md:text-sm">{pool.pair}</span>
                 </div>
-                <div className="col-span-2 text-sm text-gray-100">{pool.liquidity}</div>
-                <div className="col-span-2 text-sm text-gray-100">{pool.fees}</div>
-                <div className="col-span-2 text-sm text-gray-100">{pool.volume24h}</div>
 
-                {/* Action Buttons */}
-                <div className="col-span-3 flex justify-end space-x-3">
+                {/* Data Points - with labels for mobile */}
+                <div className="mt-3 md:mt-0 md:col-span-2 text-sm">
+                  <span className="text-[#7fddb3] md:hidden font-semibold">Liquidity: </span>
+                  <span className="text-gray-200 md:text-gray-100">{pool.liquidity}</span>
+                </div>
+                <div className="mt-1.5 md:mt-0 md:col-span-2 text-sm">
+                  <span className="text-[#7fddb3] md:hidden font-semibold">Fees (24h): </span>
+                  <span className="text-gray-200 md:text-gray-100">{pool.fees}</span>
+                </div>
+                <div className="mt-1.5 md:mt-0 md:col-span-2 text-sm">
+                  <span className="text-[#7fddb3] md:hidden font-semibold">Volume (24h): </span>
+                  <span className="text-gray-200 md:text-gray-100">{pool.volume24h}</span>
+                </div>
+
+                {/* Action Buttons - full width & stacked on mobile */}
+                <div className="mt-4 md:mt-0 md:col-span-3 flex flex-col space-y-2 md:flex-row md:justify-end md:space-x-2 md:space-y-0">
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openModal("add", pool);
-                    }}
-                    className="border border-[#00f2ab] px-4 py-1 rounded-full text-xs font-medium text-[#00f2ab] hover:bg-[#00f2ab] hover:text-black transition-colors"
+                    onClick={(e) => { e.stopPropagation(); openModal("add", pool); }}
+                    className="w-full md:w-auto border border-[#00f2ab] px-4 py-1.5 rounded-full text-xs font-medium text-[#00f2ab] hover:bg-[#00f2ab] hover:text-black transition-colors"
                   >
                     Add
                   </button>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openModal("remove", pool);
-                    }}
-                    className="border border-red-500 px-4 py-1 rounded-full text-xs font-medium text-red-400 hover:bg-red-500 hover:text-black transition-colors"
+                    onClick={(e) => { e.stopPropagation(); openModal("remove", pool); }}
+                    className="w-full md:w-auto border border-red-500 px-4 py-1.5 rounded-full text-xs font-medium text-red-400 hover:bg-red-500 hover:text-black transition-colors"
                   >
                     Remove
                   </button>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleSwap();
-                    }}
-                    className="bg-gradient-to-r from-[#00c58a] to-[#00f2ab] px-4 py-1 rounded-full text-xs font-semibold text-black hover:from-[#00f2ab] hover:to-[#00a676] transition-transform transform hover:scale-105"
+                    onClick={(e) => { e.stopPropagation(); handleSwap(); }}
+                    className="w-full md:w-auto bg-gradient-to-r from-[#00c58a] to-[#00f2ab] px-4 py-1.5 rounded-full text-xs font-semibold text-black hover:from-[#00f2ab] hover:to-[#00a676] transition-transform transform hover:scale-105"
                   >
                     Swap
                   </button>
@@ -392,30 +391,28 @@ const Pools = () => {
                     animate="visible"
                     exit="exit"
                     transition={{ duration: 0.4 }}
-                    className="overflow-hidden bg-[#ffffff0a] border-b border-white/10"
+                    className="overflow-hidden bg-[#ffffff08] md:bg-[#ffffff0a] rounded-b-lg md:rounded-b-none"
                   >
-                    <div className="p-4 flex flex-col md:flex-row md:items-center justify-between text-sm text-gray-200">
-                      {/* Pool Assets Details */}
+                    <div className="p-4 flex flex-col md:flex-row md:items-start justify-between text-sm">
                       <div className="mb-4 md:mb-0">
                         <h3 className="text-md text-[#00f2ab] font-bold mb-2">
                           Pool Assets:
                         </h3>
                         {pool.poolAssets.map((asset, idx) => (
                           <div key={idx} className="mb-1">
-                            <span className="font-semibold">{asset.token}</span>{' '}
+                            <span className="font-semibold text-gray-100">{asset.token}</span>{' '}
                             <span className="text-gray-400">({asset.contract})</span>
                           </div>
                         ))}
                       </div>
-                      {/* Your Liquidity & Share */}
-                      <div className="mt-2 md:mt-0 text-right">
+                      <div className="text-left md:text-right">
                         <p className="text-gray-300">
                           Your Liquidity:{' '}
                           <span className="text-gray-100 font-medium">
                             {pool.yourLiquidity}
                           </span>
                         </p>
-                        <p className="text-gray-300">
+                        <p className="text-gray-300 mt-1">
                           Pool Share:{' '}
                           <span className="text-gray-100 font-medium">
                             {pool.share}
@@ -439,20 +436,25 @@ const Pools = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 p-4"
           >
             <motion.div
-              initial={{ y: "-100vh", opacity: 0 }}
+              initial={{ y: "50px", opacity: 0 }} // Changed animation for a smoother entry
               animate={{ y: 0, opacity: 1 }}
-              exit={{ y: "-100vh", opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="bg-[#001e12] p-6 rounded-xl shadow-2xl max-w-md w-full mx-4 text-white"
+              exit={{ y: "50px", opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }} // Adjusted transition
+              className="bg-[#001a0f] p-5 md:p-6 rounded-xl shadow-2xl max-w-md w-full text-white border border-[#00f2ab]/30"
+              onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
             >
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white"
+                className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"
+                aria-label="Close modal"
               >
-                X
+                {/* SVG for X icon for better accessibility and styling */}
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
               {renderModalContent()}
             </motion.div>
