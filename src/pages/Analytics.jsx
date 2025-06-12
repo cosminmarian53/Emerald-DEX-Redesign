@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -8,191 +8,6 @@ import { usdcImg, egldImg, ethImg, bnbImg, btcImg, solImg } from "../utils/index
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
-
-// Pulsating Star Field Component
-const PulsatingStarField = memo(() => {
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    if (!canvasRef.current) return;
-
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-
-    // Set canvas dimensions to match window
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    // Create star arrays
-    const stars = [];
-    const pulsatingStars = [];
-    const shootingStars = [];
-
-    // Initialize stars
-    const initStars = () => {
-      // Background stars - fewer for analytics page to avoid visual clutter
-      for (let i = 0; i < 100; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          radius: Math.random() * 1 + 0.1,
-          opacity: Math.random() * 0.5 + 0.1, // Lower opacity
-          hue: Math.random() < 0.8 ? 145 : 155, // Emerald color range
-        });
-      }
-
-      // Pulsating stars - fewer and more subtle for analytics page
-      for (let i = 0; i < 25; i++) {
-        pulsatingStars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          baseRadius: Math.random() * 1.5 + 0.5,
-          radius: 0,
-          opacity: 0,
-          hue: 150, // Emerald green
-          saturation: Math.random() * 20 + 80, // 80-100%
-          pulse: Math.random() * 2 + 1,
-          phase: Math.random() * Math.PI * 2,
-        });
-      }
-
-      // Initial shooting stars - fewer for analytics page
-      addShootingStar();
-    };
-
-    // Add a new shooting star
-    const addShootingStar = () => {
-      shootingStars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * (canvas.height / 3), // Start in top third
-        length: Math.random() * 80 + 40,
-        angle: Math.random() * Math.PI / 4 + Math.PI / 4, // 45-90 degree angle
-        speed: Math.random() * 15 + 10, // Medium speed
-        opacity: 0,
-        hue: 145 + Math.random() * 15, // Emerald hue range
-        decay: 0.015 + Math.random() * 0.02, // Medium decay
-      });
-    };
-
-    // Draw all stars
-    const drawStars = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw regular stars
-      stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${star.hue}, 90%, 70%, ${star.opacity})`;
-        ctx.fill();
-      });
-
-      // Draw pulsating stars
-      pulsatingStars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${star.hue}, ${star.saturation}%, 65%, ${star.opacity})`;
-        ctx.shadowBlur = star.radius * 5;
-        ctx.shadowColor = `hsla(${star.hue}, 100%, 60%, 0.7)`;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      });
-
-      // Draw shooting stars
-      shootingStars.forEach(star => {
-        if (star.opacity <= 0) return;
-
-        ctx.beginPath();
-        ctx.moveTo(star.x, star.y);
-        const endX = star.x - Math.cos(star.angle) * star.length;
-        const endY = star.y + Math.sin(star.angle) * star.length;
-        ctx.lineTo(endX, endY);
-
-        const gradient = ctx.createLinearGradient(star.x, star.y, endX, endY);
-        gradient.addColorStop(0, `hsla(145, 100%, 70%, ${star.opacity})`);
-        gradient.addColorStop(1, `hsla(145, 100%, 70%, 0)`);
-
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Draw glow effect at head
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(145, 100%, 80%, ${star.opacity})`;
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = `hsla(145, 100%, 70%, ${star.opacity})`;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      });
-    };
-
-    // Animate the stars
-    const animateStars = () => {
-      // Animate pulsating stars - slower for analytics page
-      pulsatingStars.forEach(star => {
-        star.phase += 0.02;
-        star.radius = star.baseRadius + Math.sin(star.phase) * star.baseRadius * 0.6;
-        star.opacity = 0.2 + Math.sin(star.phase) * 0.4; // More subtle
-      });
-
-      // Animate shooting stars
-      shootingStars.forEach((star, index) => {
-        if (star.opacity <= 0) {
-          if (Math.random() < 0.01) { // Less frequent respawning for analytics page
-            shootingStars[index] = {
-              x: Math.random() * canvas.width,
-              y: Math.random() * (canvas.height / 3),
-              length: Math.random() * 80 + 40,
-              angle: Math.random() * Math.PI / 4 + Math.PI / 4,
-              speed: Math.random() * 15 + 10,
-              opacity: 0,
-              hue: 145 + Math.random() * 15,
-              decay: 0.015 + Math.random() * 0.02,
-            };
-          }
-          return;
-        }
-
-        // Grow opacity at start
-        if (star.opacity < 1 && star.x > canvas.width * 0.8) {
-          star.opacity += 0.08;
-        } else {
-          // Move and fade
-          star.x -= star.speed;
-          star.y += Math.sin(star.angle) * star.speed;
-          star.opacity -= star.decay;
-        }
-
-        // Remove when out of view
-        if (star.x < 0 || star.y > canvas.height) {
-          star.opacity = 0;
-        }
-      });
-
-      // Add new shooting stars occasionally - less frequent for analytics
-      if (Math.random() < 0.002) {
-        addShootingStar();
-      }
-
-      drawStars();
-      requestAnimationFrame(animateStars);
-    };
-
-    // Initialize and start animation
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    initStars();
-    animateStars();
-
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none" />;
-});
 
 // Token image mapping
 const tokenImages = {
@@ -1141,12 +956,15 @@ const Analytics = () => {
   return (
     <div
       ref={pageRef}
-      className="relative min-h-screen bg-black text-gray-200 py-10 px-4 md:px-6 font-sans overflow-hidden"
+      className="relative w-full min-h-screen bg-black text-gray-200 py-10 px-4 md:px-6 font-sans overflow-hidden"
     >
-      {/* Pulsating Star Field Background */}
-      <PulsatingStarField />
+      {/* Animated background grid */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: 'radial-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+        backgroundPosition: '-19px -19px',
+      }}></div>
 
-      {/* Content container with proper z-index */}
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Page Title with Animation */}
         <motion.h1
