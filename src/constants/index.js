@@ -9,14 +9,7 @@ import {
   yellowImg,
 } from "../utils";
 
-export const navLists = [
-  "PORTFOLIO",
-  "SWAP",
-  "POOLS",
-  "FARMS",
-  "ANALYTICS",
-  "ADMIN",
-];
+export const navLists = ["PORTFOLIO", "SWAP", "POOLS", "FARMS", "ANALYTICS", "TOOLS"];
 
 export const hightlightsSlides = [
   {

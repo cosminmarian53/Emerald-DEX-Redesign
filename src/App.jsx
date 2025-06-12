@@ -2,7 +2,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Admin from "./pages/Admin";
+import Tools from "./pages/Tools";
 import Swap from "./pages/Swap";
 import Farms from "./pages/Farms";
 import Pools from "./pages/Pools";
@@ -19,7 +19,7 @@ export default function App() {
       {/* Actual routes */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/tools" element={<Tools />} />
         <Route path="/swap" element={<Swap />} />
         <Route path="/farms" element={<Farms />} />
         <Route path="/pools" element={<Pools />} />
